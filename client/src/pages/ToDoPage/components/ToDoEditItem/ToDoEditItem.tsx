@@ -1,28 +1,37 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Todo } from '../../../../api/Api';
+import useInput from '../../../../hooks/useInput';
+import { useToDosDispatch } from '../../../../hooks/useTodo';
 
-const ToDoEditItem = ({ todo, id, handleEdit }: ToDoEditItemProps) => {
-  const [text, setText] = useState(todo);
+const ToDoEditItem = ({
+  todo,
+  id,
+  isCompleted,
+  handleEdit,
+}: ToDoEditItemProps) => {
+  const { value, onChange } = useInput(todo);
+  const { updateTodo } = useToDosDispatch();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setText(e.target.value);
+  const handleClickConfirm = () => {
+    updateTodo(id, { todo: value, isCompleted });
+    handleEdit();
   };
 
   return (
     <>
       <div>
-        <input onChange={handleChange} value={text} />
+        <input onChange={onChange} value={value} />
       </div>
       <div>
-        <button onClick={handleEdit}> 제출</button>
+        <button onClick={handleClickConfirm}> 제출</button>
         <button onClick={handleEdit}> 취소</button>
       </div>
     </>
   );
 };
 
-export default ToDoEditItem;
+export default React.memo(ToDoEditItem);
 
 type ToDoEditItemProps = {
   handleEdit: () => void;
-} & Pick<Todo, 'id' | 'todo'>;
+} & Pick<Todo, 'id' | 'todo' | 'isCompleted'>;

@@ -5,7 +5,6 @@ import ToDoItem from '../ToDoItem/ToDoItem';
 
 export const ToDoList = () => {
   const { data } = useTodos();
-  console.log(data);
 
   return (
     <>

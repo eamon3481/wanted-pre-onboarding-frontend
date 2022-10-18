@@ -43,19 +43,30 @@ const useToDosDispatch = () => {
   }, []);
 
   const updateTodo = useCallback(
-    async (todoId: number, payload: Partial<Todo>) => {
+    async (todoId: number, payload: Pick<Todo, 'todo' | 'isCompleted'>) => {
       if (!setTodos) return;
       const { data } = await api.updateTodo(todoId, payload);
+      console.log(data);
       setTodos((prev) => {
         const idx = prev.findIndex((todo) => todo.id === todoId);
-        if (!idx) return prev;
-        return [...prev.slice(0, idx - 1), data, ...prev.slice(idx + 1)];
+        console.log(idx);
+        if (idx === -1) return prev;
+        const copy = prev.slice();
+        copy[idx] = data;
+        return copy;
       });
     },
     [],
   );
 
-  return { deleteTodo, createTodo, updateTodo };
+  const updateCheck = useCallback(
+    async (todoId: number, payload: Pick<Todo, 'todo' | 'isCompleted'>) => {
+      api.updateTodo(todoId, payload);
+    },
+    [],
+  );
+
+  return { deleteTodo, createTodo, updateTodo, updateCheck };
 };
 
 export { useTodos, useToDosDispatch };

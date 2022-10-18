@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useMemo, useState } from 'react';
 import { Todo } from '../../../../api/Api';
 
 const ToDoContext = createContext<Todo[] | null>(null);
@@ -8,10 +8,10 @@ const ToDoDispatchContext = createContext<React.Dispatch<
 
 export const ToDoProvider = ({ children }: ToDoProviderProps) => {
   const [todos, setTodos] = useState<Todo[]>([]);
-
+  const memoSetTodos = useMemo(() => setTodos, []);
   return (
     <ToDoContext.Provider value={todos}>
-      <ToDoDispatchContext.Provider value={setTodos}>
+      <ToDoDispatchContext.Provider value={memoSetTodos}>
         {children}
       </ToDoDispatchContext.Provider>
     </ToDoContext.Provider>

@@ -26,6 +26,6 @@ const ToDoAddInput = () => {
   );
 };
 
-export default ToDoAddInput;
+export default React.memo(ToDoAddInput);
 
 const ToDoInputWrapper = styled.div``;
