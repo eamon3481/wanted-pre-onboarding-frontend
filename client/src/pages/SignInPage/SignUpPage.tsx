@@ -1,16 +1,13 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import InputWithLabel from '../../components/InputWithLabel/InputWithLabel';
 import { useAuth } from '../../hooks/useAuth';
-import * as S from './LoginPage.style';
-const LogInPage = () => {
-  const navigate = useNavigate();
-  const onClickSignIn = () => {
-    navigate('/sign-up');
-  };
 
-  const { signIn } = useAuth();
-  const handleSummitSignIn = (e: React.SyntheticEvent) => {
+import * as S from './SignUpPage.style';
+
+const SignUpPage = () => {
+  const { signUp } = useAuth();
+
+  const handleSummitSignUp = (e: React.SyntheticEvent) => {
     e.preventDefault();
     const target = e.target as typeof e.target & {
       email: { value: string };
@@ -19,11 +16,17 @@ const LogInPage = () => {
     };
     const email = target.email.value;
     const password = target.password.value;
+    const confirmPassword = target.confirmPassword.value;
+    if (password !== confirmPassword) {
+      alert('패스워드를 확인해 주세요');
+      return;
+    }
 
-    signIn({ email, password });
+    signUp({ email, password });
   };
+
   return (
-    <S.Form onSubmit={handleSummitSignIn}>
+    <S.Form onSubmit={handleSummitSignUp}>
       <InputWithLabel label="이메일" type="email" name="email" required />
       <InputWithLabel
         label="패스워드"
@@ -32,13 +35,17 @@ const LogInPage = () => {
         minLength={8}
         required
       />
+      <InputWithLabel
+        label="패스워드 확인"
+        type="password"
+        name="confirmPassword"
+        minLength={8}
+        required
+      />
 
-      <button>제출</button>
-      <button type="button" onClick={onClickSignIn}>
-        회원 가입
-      </button>
+      <button>회원 가입</button>
     </S.Form>
   );
 };
 
-export default LogInPage;
+export default SignUpPage;
