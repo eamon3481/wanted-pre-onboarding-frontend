@@ -8,11 +8,12 @@ class Request {
   constructor() {
     this.req = axios.create({
       baseURL: BASE_URL,
+      // headers: { 'Content-Type': 'application/json' },
     });
   }
   getUserAuthHeader = () => {
     const userAuthToken = tokenStorage.getAuthToken();
-
+    console.log(userAuthToken);
     return userAuthToken
       ? {
           Authorization: 'Bearer ' + userAuthToken,
@@ -35,16 +36,14 @@ class Request {
   };
 
   createTodo = (data: Pick<Todo, 'todo'>) => {
-    return this.req.post<Todo>('/todos', {
+    return this.req.post<Todo>('/todos', data, {
       headers: this.getUserAuthHeader(),
-      data,
     });
   };
 
   updateTodo = (todoId: number, data: Partial<Todo>) => {
-    return this.req.put<Todo>(`/todos/${todoId}`, {
+    return this.req.put<Todo>(`/todos/${todoId}`, data, {
       headers: this.getUserAuthHeader(),
-      data,
     });
   };
 

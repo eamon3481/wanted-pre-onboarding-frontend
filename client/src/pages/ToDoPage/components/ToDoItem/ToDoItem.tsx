@@ -1,18 +1,22 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { Todo } from '../../../../api/Api';
 import ToDoEditItem from '../ToDoEditItem/ToDoEditItem';
 
 const ToDoItem = ({ todo, id, isCompleted }: Todo) => {
   const [isEdit, setIsEdit] = useState(false);
+  const [isCheck, setIsCheck] = useState(isCompleted);
 
   const handleEdit = () => {
     setIsEdit((prev) => !prev);
   };
 
-  const handleCheckChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.target.checked = !e.target.checked;
-  };
+  const handleCheckChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setIsCheck((prev) => !prev);
+    },
+    [],
+  );
 
   if (isEdit) {
     return (
@@ -24,12 +28,8 @@ const ToDoItem = ({ todo, id, isCompleted }: Todo) => {
   return (
     <ToDoItemWrapper>
       <div>
-        <input
-          type="checkbox"
-          onChange={handleCheckChange}
-          checked={isCompleted}
-        />
-        <span>할일</span>
+        <input type="checkbox" onChange={handleCheckChange} checked={isCheck} />
+        <span>{todo}</span>
       </div>
       <div>
         <button onClick={handleEdit}> 수정</button>
