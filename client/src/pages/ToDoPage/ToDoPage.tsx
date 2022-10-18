@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import ToDoItem from './components/ToDoItem/ToDoItem';
 import * as S from './ToDoPage.style';
 const ToDoPage = () => {
   return (
@@ -7,13 +8,7 @@ const ToDoPage = () => {
       <h1>ToDo</h1>
       <input /> <button>추가</button>
       <ul>
-        <li>
-          <input type="checkbox" />
-          <span>할일</span>
-
-          <button> 수정</button>
-          <button> 삭제</button>
-        </li>
+        <ToDoItem id={1} todo={'할일'} isCompleted={false} userId={1} />
       </ul>
     </ToDoPageWrapper>
   );
