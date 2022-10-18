@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import api, { Todo } from '../api/Api';
 
 import {
